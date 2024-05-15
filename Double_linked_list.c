@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 // 노드 구조체 정의
+//prev 는 이전 노드를 가리키는 포인터 *이중연결이므로 노드가 두개
 typedef struct Node {
     int data;
     struct Node* next;
@@ -9,12 +10,15 @@ typedef struct Node {
 } Node;
 
 // 리스트 구조체 정의
+// 해당 구조체는 리스트의 시작과 끝을 나타냄
+// head는 시작, tail 은 끝을 가리키는 포인터
 typedef struct DoublyLinkedList {
     Node* head;
     Node* tail;
 } DoublyLinkedList;
 
 // 새로운 노드 생성 함수
+//data 를설정하고 next와 prev포인터를 null (동적으로 할당 및 데이터 초기화)
 Node* createNode(int data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
@@ -24,6 +28,7 @@ Node* createNode(int data) {
 }
 
 // 리스트 초기화 함수
+//head와 tail을 널로 설정
 DoublyLinkedList* createDoublyLinkedList() {
     DoublyLinkedList* list = (DoublyLinkedList*)malloc(sizeof(DoublyLinkedList));
     list->head = NULL;
@@ -32,6 +37,8 @@ DoublyLinkedList* createDoublyLinkedList() {
 }
 
 // 노드를 리스트의 앞에 삽입하는 함수
+// 비어있다면, head와 tail을 새노드로 설정
+// 비어있지 않다면, head를 앞에 삽입-포인터를 적절히 업데이트
 void insertAtHead(DoublyLinkedList* list, int data) {
     Node* newNode = createNode(data);
     if (list->head == NULL) {
@@ -45,6 +52,8 @@ void insertAtHead(DoublyLinkedList* list, int data) {
 }
 
 // 노드를 리스트의 뒤에 삽입하는 함수
+// 리스트가 비어있으면, head와 tail을 새노드로 설정
+//아니라면, 새 노드를 tail 뒤에 삽입하고 포인터를 업데이트
 void insertAtTail(DoublyLinkedList* list, int data) {
     Node* newNode = createNode(data);
     if (list->tail == NULL) {
@@ -58,6 +67,9 @@ void insertAtTail(DoublyLinkedList* list, int data) {
 }
 
 // 리스트에서 특정 데이터를 가진 노드를 삭제하는 함수
+//리스트를 순회하며 특정 데이터를 찾음
+//찾으면 이전 노드와 다음 노드를 연결하고 현재 노드를 리스트에서 삭제
+//현재 노드가 head나 tail이면 포인터를 업뎃
 void deleteNode(DoublyLinkedList* list, int data) {
     Node* current = list->head;
     while (current != NULL) {
@@ -80,6 +92,7 @@ void deleteNode(DoublyLinkedList* list, int data) {
 }
 
 // 리스트의 모든 노드를 순방향으로 출력하는 함수
+// head부터 시작, next를 따라 데이터를 출력
 void printListForward(DoublyLinkedList* list) {
     Node* current = list->head;
     while (current != NULL) {
@@ -90,6 +103,7 @@ void printListForward(DoublyLinkedList* list) {
 }
 
 // 리스트의 모든 노드를 역방향으로 출력하는 함수
+//tail부터 시작, prev포인터를 따라 데이터 출력
 void printListBackward(DoublyLinkedList* list) {
     Node* current = list->tail;
     while (current != NULL) {
@@ -100,6 +114,7 @@ void printListBackward(DoublyLinkedList* list) {
 }
 
 // 메모리 해제 함수
+//head부터 시작하여 모든 노드를 해제 후 리스트를 해제
 void freeList(DoublyLinkedList* list) {
     Node* current = list->head;
     while (current != NULL) {

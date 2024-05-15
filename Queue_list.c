@@ -8,12 +8,14 @@ typedef struct QueueNode {
 } QueueNode;
 
 // 큐 구조체 정의
+// front 는 큐의 맨 앞 노드를 가리키고, rear는 큐의 마지막 노드를 가리키는 포인터
 typedef struct Queue {
     QueueNode* front;
     QueueNode* rear;
 } Queue;
 
 // 큐 초기화 함수
+//front 와 rear를 null
 Queue* createQueue() {
     Queue* queue = (Queue*)malloc(sizeof(Queue));
     queue->front = NULL;
@@ -22,6 +24,7 @@ Queue* createQueue() {
 }
 
 // 새로운 노드 생성 함수
+//data를 설정하고 next 포인터를 널로 초기화
 QueueNode* createNode(int data) {
     QueueNode* newNode = (QueueNode*)malloc(sizeof(QueueNode));
     newNode->data = data;
@@ -30,6 +33,8 @@ QueueNode* createNode(int data) {
 }
 
 // 큐에 요소를 인큐하는 함수
+//큐가 비어 있으면 front와 rear를 새 노드로 설정
+// 아니라면, rear의 next 포인터를 새 노드로 설정- rear를 새 노드로 업뎃
 void enqueue(Queue* queue, int data) {
     QueueNode* newNode = createNode(data);
     if (queue->rear == NULL) {
@@ -42,6 +47,8 @@ void enqueue(Queue* queue, int data) {
 }
 
 // 큐에서 요소를 디큐하는 함수
+//front의 데이터를 저장-다음노드로 업뎃
+//비어 있다면 rear도 null로 설정
 int dequeue(Queue* queue) {
     if (queue->front == NULL) {
         printf("Queue is empty\n");
@@ -67,11 +74,13 @@ int peek(Queue* queue) {
 }
 
 // 큐가 비어있는지 확인하는 함수
+//front 가 널이면 큐가 비어있다는 것임
 int isEmpty(Queue* queue) {
     return queue->front == NULL;
 }
 
 // 메모리 해제 함수
+// 모든 노드를 해제한 후 큐 자체를 해제
 void freeQueue(Queue* queue) {
     QueueNode* current = queue->front;
     while (current != NULL) {

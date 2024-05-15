@@ -8,11 +8,13 @@ typedef struct StackNode {
 } StackNode;
 
 // 스택 구조체 정의
+//stack 구조체는 스택의 최상단 노드를 나타냄 top은 스택의 맨위노드
 typedef struct Stack {
     StackNode* top;
 } Stack;
 
 // 스택 초기화 함수
+//top을 null설정
 Stack* createStack() {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
     stack->top = NULL;
@@ -20,6 +22,7 @@ Stack* createStack() {
 }
 
 // 새로운 노드 생성 함수
+//data를 설정하고 next포인터를 null로 초기화
 StackNode* createNode(int data) {
     StackNode* newNode = (StackNode*)malloc(sizeof(StackNode));
     newNode->data = data;
@@ -28,6 +31,8 @@ StackNode* createNode(int data) {
 }
 
 // 스택에 요소를 푸시하는 함수
+//스택이 비어있으면, top을 새노드로 설정
+// 비어있지않으면, next 포이너를 현재 top으로 설정하고 top을 새 노드로 업뎃
 void push(Stack* stack, int data) {
     StackNode* newNode = createNode(data);
     if (stack->top == NULL) {
@@ -39,6 +44,8 @@ void push(Stack* stack, int data) {
 }
 
 // 스택에서 요소를 팝하는 함수
+// top의 데이터를 저장하고 top을 다음노드로 업데이트
+//제거한 노드를 해제하고 데이터를 반환
 int pop(Stack* stack) {
     if (stack->top == NULL) {
         printf("Stack is empty\n");
@@ -66,6 +73,7 @@ int isEmpty(Stack* stack) {
 }
 
 // 메모리 해제 함수
+//top부터 시작하여 모든노드를 해제 후 구조체 자체를 해제
 void freeStack(Stack* stack) {
     StackNode* current = stack->top;
     while (current != NULL) {
